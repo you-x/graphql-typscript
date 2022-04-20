@@ -1,5 +1,5 @@
 import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
-import { Author } from 'src/graphql';
+import { Author, Post } from 'src/graphql';
 import { AuthorService } from './author.service';
 
 @Resolver('Author')
@@ -7,7 +7,7 @@ export class AuthorResolver {
   constructor(private readonly authorService: AuthorService) {}
 
   @ResolveField('posts')
-  posts(@Parent() author: Author) {
+  posts(@Parent() author: Author): Promise<Post[]> {
     return [
       {
         id: 1,
@@ -17,7 +17,7 @@ export class AuthorResolver {
   }
 
   @Query('authors')
-  findAll() {
+  findAll(): Promise<Author[]> {
     return [
       {
         id: 1,
